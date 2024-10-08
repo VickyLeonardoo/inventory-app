@@ -46,49 +46,51 @@
                         </form>
                     </div>
                 </div> --}}
-                <table id="example" class="display w-full border-collapse mt-4"> <!-- Menambahkan mt-4 di sini -->
-                    <thead class="bg-gray-200 text-white">
-                        <tr>
-                            <th class="px-4 py-2">Image</th>
-                            <th class="px-4 py-2">Code</th>
-                            <th class="px-4 py-2">Name</th>
-                            <th class="px-4 py-2">Stock</th>
-                            <th class="px-4 py-2">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($items as $item)
-                            <tr class="bg-gray-100">
-                                <td class="px-4 py-2">
-                                    <img src="{{ Storage::url($item->image) }}" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
-                                </td>
-                                <td class="px-4 py-2">{{ $item->code }}</td>
-                                <td class="px-4 py-2">{{ $item->name }}</td>
-                                <td class="px-4 py-2">{{ $item->stocl }}</td>
-                                <td class="px-4 py-2">
-                                    <div class="flex space-x-2">
-                                        <!-- Tombol Edit -->
-                                        <a href="{{ route('item.edit', $item) }}" 
-                                           class="bg-blue-700 hover:bg-blue-300 text-white font-bold py-1 px-4 rounded transition duration-200">
-                                            Edit
-                                        </a>
-                    
-                                        <!-- Tombol Delete -->
-                                        <form action="{{ route('item.destroy', $item) }}" method="POST" onsubmit="return confirm('Are you sure?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" 
-                                                    class="bg-red-700 hover:bg-red-300 text-white font-bold py-1 px-4 rounded transition duration-200">
-                                                Delete
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
 
+                    <table id="example" class="display w-full border-collapse mt-4"> <!-- Menambahkan mt-4 di sini -->
+                        <thead class="bg-gray-200 text-white">
+                            <tr>
+                                <th class="px-4 py-2">Image</th>
+                                <th class="px-4 py-2">Code</th>
+                                <th class="px-4 py-2">Name</th>
+                                <th class="px-4 py-2">Stock</th>
+                                <th class="px-4 py-2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($items as $item)
+                                <tr class="bg-gray-100">
+                                    <td class="px-4 py-2">
+                                        <img src="{{ Storage::url($item->image) }}" alt="" class="rounded-2xl object-cover w-[120px] h-[90px]">
+                                    </td>
+                                    <td class="px-4 py-2">{{ $item->code }}</td>
+                                    <td class="px-4 py-2">{{ $item->name }}</td>
+                                    <td class="px-4 py-2">{{ $item->current_stock }}</td>
+                                    <td class="px-4 py-2">
+                                        <div class="flex space-x-2">
+                                            <!-- Tombol Edit -->
+                                            <a href="{{ route('item.edit', $item) }}" 
+                                               class="bg-blue-700 hover:bg-blue-300 text-white font-bold py-1 px-4 rounded transition duration-200">
+                                                Edit
+                                            </a>
+                        
+                                            <!-- Tombol Delete -->
+                                            <form action="{{ route('item.destroy', $item) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" 
+                                                        class="bg-red-700 hover:bg-red-300 text-white font-bold py-1 px-4 rounded transition duration-200">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

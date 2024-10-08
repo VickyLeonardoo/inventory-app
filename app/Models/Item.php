@@ -12,4 +12,11 @@ class Item extends Model
 
     protected $guarded = ['id'];
 
+    public function arrival(){
+        return $this->hasMany(Arrival::class);
+    }
+
+    public function location(){
+        return $this->belongsTo(Location::class);
+    }
 }

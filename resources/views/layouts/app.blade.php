@@ -13,6 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="//unpkg.com/alpinejs" defer></script>
+
         <!-- DataTables CSS -->
         <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.tailwindcss.css">
 

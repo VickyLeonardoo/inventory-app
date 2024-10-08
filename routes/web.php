@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ArrivalController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\ApplicationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +25,20 @@ Route::middleware('auth')->group(function () {
         ->middleware('role:superadmin');
 
     Route::resource('location',LocationController::class)
+        ->middleware('role:superadmin');
+
+    Route::resource('supplier',SupplierController::class)
+        ->middleware('role:superadmin');
+
+    Route::resource('arrival',ArrivalController::class)
+        ->middleware('role:superadmin');
+
+        // Custom route terlebih dahulu
+    Route::post('/approve/application/{id}', [ApplicationController::class, 'approve'])
+        ->name('application.approve')
+        ->middleware('role:superadmin');
+
+    Route::resource('application',ApplicationController::class)
         ->middleware('role:superadmin');
 
 });

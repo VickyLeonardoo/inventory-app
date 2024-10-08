@@ -7,6 +7,8 @@ use App\Models\Location;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateItemRequest;
 
 class ItemController extends Controller
 {
@@ -67,9 +69,25 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Item $item)
+    public function update(UpdateItemRequest $request, Item $item)
     {
-        //
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($item->image) {
+                Storage::disk('public')->delete($item->image);
+            }
+    
+            // Simpan gambar baru
+            $imagePath = $request->file('image')->store('itemImage', 'public');
+            $data['image'] = $imagePath;
+        }
+
+        $item->update($data);
+        return redirect()->route('item.index')->with('success','Item Updated Successfully');
+        
     }
 
     /**
@@ -77,6 +95,7 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+        return redirect()->route('item.index')->with('success','Item Deleted Successfully');
     }
 }
