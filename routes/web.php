@@ -7,6 +7,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ItemApplicationController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,24 +24,42 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('item',ItemController::class)
-        ->middleware('role:superadmin');
+        ->middleware('role:superadmin|admin|staff|supervisor');
 
     Route::resource('location',LocationController::class)
-        ->middleware('role:superadmin');
+        ->middleware('role:superadmin|admin');
 
     Route::resource('supplier',SupplierController::class)
-        ->middleware('role:superadmin');
+        ->middleware('role:superadmin|admin');
 
     Route::resource('arrival',ArrivalController::class)
-        ->middleware('role:superadmin');
+        ->middleware('role:superadmin|admin');
 
         // Custom route terlebih dahulu
-    Route::post('/approve/application/{id}', [ApplicationController::class, 'approve'])
+    Route::put('/approve/application/{application}', [ApplicationController::class, 'approve'])
         ->name('application.approve')
-        ->middleware('role:superadmin');
+        ->middleware('role:superadmin|admin|staff|supervisor');
+
+    Route::put('/pending/application/{application}', [ApplicationController::class, 'pending'])
+        ->name('application.pending')
+        ->middleware('role:superadmin|admin|staff|supervisor');
+
+    Route::put('/reject/application/{application}', [ApplicationController::class, 'reject'])
+        ->name('application.reject')
+        ->middleware('role:superadmin|admin|staff|supervisor');
 
     Route::resource('application',ApplicationController::class)
-        ->middleware('role:superadmin');
+        ->middleware('role:superadmin|admin|staff|supervisor');
+
+    Route::delete('/application/item/{item}', [ItemApplicationController::class, 'delete'])
+        ->name('application.item.delete')
+        ->middleware('role:superadmin|admin|staff|supervisor');
+
+    Route::resource('application.item',ItemApplicationController::class)
+        ->middleware('role:superadmin|admin|staff|supervisor');
+
+    Route::resource('user',UserController::class)
+        ->middleware('role:superadmin|admin');
 
 });
 

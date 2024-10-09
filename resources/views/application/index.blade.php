@@ -4,9 +4,11 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Manage Application') }}
             </h2>
-            <a href="{{ route('application.create') }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                Add New
-            </a>
+            @role('superadmin|staff')
+                <a href="{{ route('application.create') }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+                    Add New
+                </a>
+            @endrole
 
         </div>
     </x-slot>
@@ -27,10 +29,39 @@
                             <th class="px-4 py-2 border border-gray-300">Application No</th>
                             <th class="px-4 py-2 border border-gray-300">Issued By</th>
                             <th class="px-4 py-2 border border-gray-300">Issued Date</th>
+                            <th class="px-4 py-2 border border-gray-300">Status</th>
                             <th class="px-4 py-2 border border-gray-300">Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($applications as $app)
+                            <tr class="bg-gray-100">
+                                <td class="px-4 py-2 border border-gray-300">{{ $loop->iteration }}</td>
+                                <td class="px-4 py-2 border border-gray-300">{{ $app->application_no }}</td>
+                                <td class="px-4 py-2 border border-gray-300">{{ $app->user->name }}</td>
+                                <td class="px-4 py-2 border border-gray-300">{{ $app->application_date }}</td>
+                                <td class="px-4 py-2 border border-gray-300">
+                                    @if ($app->status == 'Draft')
+                                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/20">Draft</span>
+                                    @elseif ($app->status == 'Pending')
+                                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-cyan-700 ring-1 ring-inset ring-cyan-600/20">Pending</span>
+                                    @elseif ($app->status == 'Approved')
+                                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Approved</span>
+                                    @else
+                                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">Rejected</span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-2 border border-gray-300">
+                                    <div class="flex space-x-2">
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('application.show', $app) }}" 
+                                           class="bg-cyan-500 hover:bg-cyan-300 text-white font-bold py-1 px-4 rounded transition duration-200">
+                                           Detail
+                                        </a>
+                                    </div>    
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

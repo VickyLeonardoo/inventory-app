@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\Application;
 use Illuminate\Http\Request;
@@ -34,9 +35,43 @@ class ApplicationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        $request->validate([
+            'application_date' => 'required|date',
+            'items' => 'required|array',
+            'items.*.item_id' => 'required|exists:items,id',
+            'items.*.quantity' => 'required|integer|min:1',
+        ]);
+
+        $year = Carbon::now()->format('Y'); // Ambil tahun sekarang
+        $lastApplication = Application::whereYear('created_at', $year)
+                            ->orderBy('id', 'desc') // Dapatkan data terakhir di tahun ini
+                            ->first();
+
+        if ($lastApplication) {
+            // Ambil nomor dari application_no terakhir, misal 'APP/2024/0005' -> 0005
+            $lastNumber = intval(substr($lastApplication->application_no, -4));
+            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT); // Tambahkan 1 dan format jadi 4 digit
+        } else {
+            // Jika belum ada data di tahun ini, mulai dari 0001
+            $newNumber = '0001';
+        }
+
+        // Buat application_no baru dengan format APP/{tahun}/000x
+        $applicationNo = 'APP/' . $year . '/' . $newNumber;
+
+        $application = Application::create([
+            'application_no' => $applicationNo,
+            'user_id' => auth()->id(),
+            'application_date' => $request->application_date,
+        ]);
+
+        foreach ($request->items as $item) {
+            $application->item()->attach($item['item_id'], ['quantity' => $item['quantity']]);
+        }
+
+        return redirect()->route('application.index')->with('success', 'Application created successfully.');
+       
     }
 
     /**
@@ -44,7 +79,9 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
-        //
+        return view('application.show', [
+            'application' => $application,
+        ]);
     }
 
     /**
@@ -60,7 +97,12 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, Application $application)
     {
-        //
+        $data = $request->validate([
+            'application_date' => 'required|date',
+        ]);
+
+        $application->update($data);
+        return redirect()->route('application.show',$application)->with('success', 'Application updated successfully.');
     }
 
     /**
@@ -68,6 +110,23 @@ class ApplicationController extends Controller
      */
     public function destroy(Application $application)
     {
-        //
+        $application->delete();
+        return redirect()->route('application.index')->with('success', 'Application deleted successfully.');
+    }
+
+    public function pending(Application $application){
+        if ($application->item->count() == 0) {
+            return redirect()->back()->with('error','Your application must have at least one item.');
+        }
+        $application->update(['status' => 'Pending']);
+        return redirect()->route('application.index')->with('success', 'Application updated successfully.');
+    }
+
+    public function reject(Request $request, Application $application){
+        $application->update([
+                'status' => 'Rejected',
+                'remark' => $request->remark,
+            ]);
+        return redirect()->route('application.index')->with('success', 'Application updated successfully.');
     }
 }

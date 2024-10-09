@@ -12,5 +12,15 @@ class Application extends Model
 
     protected $guarded = ['id'];
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function item() // Use plural for many-to-many relationships
+    {
+        return $this->belongsToMany(Item::class, 'item_applications')
+                    ->withPivot('quantity','id') // Include pivot fields if needed
+                    ->withTimestamps(); // Include timestamps if needed
+    }
     
 }

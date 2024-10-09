@@ -15,18 +15,26 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                
+                    {{-- Links for all roles --}}
                     <x-nav-link :href="route('item.index')" :active="request()->routeIs('item*')">
                         {{ __('Item') }}
                     </x-nav-link>
+                    {{-- Links for admin and superadmin only --}}
+                    @role('admin|superadmin')
                     <x-nav-link :href="route('location.index')" :active="request()->routeIs('location*')">
                         {{ __('Location') }}
                     </x-nav-link>
                     <x-nav-link :href="route('supplier.index')" :active="request()->routeIs('supplier*')">
                         {{ __('Supplier') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user*')">
+                        {{ __('User') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('arrival.index')" :active="request()->routeIs('arrival*')">
                         {{ __('Arrivals') }}
                     </x-nav-link>
+                    @endrole
                     <x-nav-link :href="route('application.index')" :active="request()->routeIs('application*')">
                         {{ __('Application') }}
                     </x-nav-link>
@@ -88,8 +96,20 @@
             <x-responsive-nav-link :href="route('item.index')" :active="request()->routeIs('item*')">
                 {{ __('Item') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('location.index')" :active="request()->routeIs('location*')">
+                {{ __('Location') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('supplier.index')" :active="request()->routeIs('supplier*')">
+                {{ __('Supplier') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('user.index')" :active="request()->routeIs('user*')">
+                {{ __('User') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('arrival.index')" :active="request()->routeIs('arrival*')">
+                {{ __('Arrivals') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('application.index')" :active="request()->routeIs('application*')">
+                {{ __('Application') }}
             </x-responsive-nav-link>
         </div>
 

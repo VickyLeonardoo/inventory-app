@@ -11,7 +11,7 @@ class UpdateSupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->hasAnyRole(['superadmin']);
+        return $this->user()->hasAnyRole(['superadmin','admin']);
     }
 
     /**

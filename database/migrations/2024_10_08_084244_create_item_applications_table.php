@@ -16,11 +16,10 @@ return new class extends Migration
             $table->foreignId('application_id')->constrained()->onDelete('cascade');
             $table->foreignId('item_id')->constrained();
             $table->integer('quantity');
-            $table->softDeletes();
             $table->timestamps();
         });
     }
-
+ 
     /**
      * Reverse the migrations.
      */

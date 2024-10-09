@@ -59,7 +59,7 @@
                         <x-input-error :messages="$errors->get('category')" class="mt-2" />
                     </div>
 
-                   <div class="mt-4">
+                    <div class="mt-4">
                         <x-input-label for="description" :value="__('Description')" />
                         <textarea id="description" name="description" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" rows="4" required>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum accusamus ullam delectus maiores, quisquam earum perferendis ipsa quo necessitatibus a voluptates veniam neque ut perspiciatis facilis excepturi ratione placeat qui.</textarea>
                         <x-input-error :messages="$errors->get('description')" class="mt-2" />

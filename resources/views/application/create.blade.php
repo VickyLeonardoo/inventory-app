@@ -2,9 +2,9 @@
     <x-slot name="header">
         <div class="flex flex-row justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Add Supplier') }}
+                {{ __('Add Application') }}
             </h2>
-            <a href="{{ route('supplier.index') }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
+            <a href="{{ route('application.index') }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
                 Back
             </a>
         </div>
@@ -14,7 +14,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
  <!-- Name -->
-                <form method="POST" action="{{ route('supplier.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('application.store') }}" enctype="multipart/form-data">
                     @csrf
                     
                     <div class="mt-4">
@@ -34,14 +34,14 @@
                         <!-- Item rows will be dynamically added here -->
                     </div>
                     
-                    <button type="button" id="add-item" class="mt-4 bg-blue-500 text-black py-2 px-4 rounded shadow">Add Item</button>
+                    <button type="button" id="add-item" class="mt-4 bg-indigo-700 text-white py-2 px-4 rounded shadow">Add Item</button>
                     
                     
 
                     <div class="flex items-center justify-end mt-4">
             
                         <button type="submit" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                            Add New Supplier
+                            Add New Application
                         </button>
                     </div>
 
@@ -74,7 +74,7 @@
                         <x-text-input id="quantity_${itemCount}" class="block mt-1 w-full" type="number" name="items[${itemCount}][quantity]" required min="1" />
                     </div>
                     <div class="col-span-2">
-                        <button type="button" class="remove-item mt-4 bg-red-600 text-black py-2 px-4 rounded shadow">Remove</button>
+                        <button type="button" class="remove-item mt-4 bg-red-600 text-white py-2 px-4 rounded shadow">Remove</button>
                     </div>
                 `;
                 itemContainer.appendChild(row);

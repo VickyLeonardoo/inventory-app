@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->string('application_no');
-            $table->foreignId('user_id')->constrained();
+            $table->string('application_no')->nullable();
+            $table->foreignId('user_id')->constrained(); 
             $table->date('application_date');
             $table->enum('status',['Draft','Pending','Approved','Rejected'])->default('Draft');
             $table->text('remarks')->nullable();
