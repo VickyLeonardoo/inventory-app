@@ -12,6 +12,12 @@
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+            @if ($application->remarks && $application->status == 'Rejected')
+                <div class="p-4 mb-4 text-sm text-white rounded-lg bg-red-400 dark:bg-gray-800 dark:text-green-400" role="alert">
+                    <span class="font-medium"><strong>Remarks!</strong> <br>
+                        {{ $application->remarks }}</span>
+                </div>
+            @endif
             @if ($application->item->count() == 0)
             <div class="p-4 mb-4 text-sm text-white rounded-lg bg-red-400 dark:bg-gray-800 dark:text-green-400" role="alert">
                 <span class="font-medium">Your application must have at least one item!</span>
@@ -32,11 +38,15 @@
                 <div class="flex flex-col items-end gap-y-3 mt-4 md:mt-0 md:flex-row md:items-center md:gap-x-3">
                     @role('superadmin|supervisor')
                         @if ($application->status == 'Pending')
-                            <a href=""
+                        <form action="{{ route('application.approve', $application) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit"
                                 class="font-bold py-2 px-4 bg-emerald-600 hover:bg-emerald-400 text-white rounded-full">
                                 Approve
-                            </a>
-                            <a href="#" id="openRejectModal"
+                            </button>
+                        </form>
+                            <a href="{{ route('application.reject', $application) }}" id="openRejectModal"
                                 class="font-bold py-2 px-4 bg-red-600 hover:bg-red-400 text-white rounded-full">
                                 Reject
                             </a>

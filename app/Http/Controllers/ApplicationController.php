@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\Application;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
@@ -122,10 +123,19 @@ class ApplicationController extends Controller
         return redirect()->route('application.index')->with('success', 'Application updated successfully.');
     }
 
+    public function approve(Application $application){
+        foreach ($application->item as $item) {
+            $item->update(['current_stock' => $item->current_stock - $item->pivot->quantity]);
+        }
+        
+        $application->update(['status' => 'Approved']);
+        return redirect()->route('application.index')->with('success', 'Application updated successfully.');
+    }
+
     public function reject(Request $request, Application $application){
         $application->update([
                 'status' => 'Rejected',
-                'remark' => $request->remark,
+                'remarks' => $request->remark,
             ]);
         return redirect()->route('application.index')->with('success', 'Application updated successfully.');
     }
