@@ -1,17 +1,16 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex flex-row justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Manage Item') }}
-            </h2>
-            <a href="{{ route('item.create') }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                Add New
-            </a>
-        </div>
-    </x-slot>
-
-    <div class="py-12">
+   <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mb-3">
+                <div class="flex flex-row justify-between items-center">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                        {{ __('Manage Item') }}
+                    </h2>
+                    <a href="{{ route('item.create') }}" class="font-bold py-2 px-2 bg-indigo-700 text-white rounded-full">
+                        Add New
+                    </a>
+                </div>
+            </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
                 {{-- <div class="item-card flex flex-col md:flex-row gap-y-10 justify-between md:items-center">
                     <div class="flex flex-row items-center gap-x-3">

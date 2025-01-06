@@ -31,13 +31,13 @@
         <script src="https://cdn.datatables.net/2.1.7/js/dataTables.tailwindcss.js"></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-orange-100">
+        <div class="min-h-screen bg-[#057875]">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white shadow bg-orange-100">
-                    <div class="max-w-7xl  mx-auto py-2 px-2 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto py-2 px-2 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>

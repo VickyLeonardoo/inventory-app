@@ -1,20 +1,18 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex flex-row justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Manage Application') }}
-            </h2>
-            @role('superadmin|staff')
-                <a href="{{ route('application.create') }}" class="font-bold py-4 px-6 bg-indigo-700 text-white rounded-full">
-                    Add New
-                </a>
-            @endrole
-
-        </div>
-    </x-slot>
     <div class="py-12">
-
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mb-3">
+                <div class="flex flex-row justify-between items-center">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                        {{ __('Manage Application') }}
+                    </h2>
+                    @role('superadmin|staff')
+                        <a href="{{ route('application.create') }}" class="font-bold py-2 px-2 bg-indigo-700 text-white rounded-full">
+                            Add New
+                        </a>
+                    @endrole
+                </div>    
+            </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-10 flex flex-col gap-y-5">
                 @if (session('success'))
                     <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
