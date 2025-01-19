@@ -91,6 +91,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $checApp = $user->application;
+        if ($checApp) {
+            return redirect()->back()->with('error','Cannot delete data if user already have application');
+        }
         $user->delete();
         return redirect()->route('user.index')->with('success', 'User deleted successfully');
     }
